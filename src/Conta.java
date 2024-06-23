@@ -1,5 +1,5 @@
 
-public abstract class Conta {
+public abstract class Conta implements ITaxas{
 
     public static int totalContas;
     private double saldo;
@@ -7,8 +7,8 @@ public abstract class Conta {
     private String agencia;
     protected double limite;
     protected Cliente dono;
-    private Operacao[] operacoes = new Operacao[1000];
-    private int ultima_operacao = 0;
+    protected Operacao[] operacoes = new Operacao[1000];
+    protected int ultima_operacao = 0;
 
     public Conta(double saldo, int numero, String agencia, double limite, Cliente dono) {
         totalContas++;
@@ -29,6 +29,17 @@ public abstract class Conta {
         }
     }
 
+    void imprimirExtratoTaxas() {
+        System.out.println("=== Extrato de Taxas ===");
+        System.out.printf("Manutenção da conta: %.2f \n" ,this.calculaTaxas());
+        System.out.println("\nOperações");
+        for (int i = 0; i < this.getUltima_operacao(); i ++) {
+            if(this.getOperacoes()[i].getTipo() == 's' && this.getOperacoes()[i].calculaTaxas() != 0)
+                System.out.printf("Saque: %.2f\n", this.getOperacoes()[i].calculaTaxas());
+            else if(this.getOperacoes()[i].getTipo() == 'd' && this.getOperacoes()[i].calculaTaxas() != 0)
+                System.out.printf("Depósito: %.2f\n", this.getOperacoes()[i].calculaTaxas());
+        }
+    }
 
     boolean sacar(double valor) {
         if(valor > 0.0 && valor <= this.saldo) {
@@ -90,4 +101,8 @@ public abstract class Conta {
     }
 
     abstract public void setLimite(double novoLimite);
+
+    public int getUltima_operacao() { return this.ultima_operacao; }
+
+    public Operacao[] getOperacoes() { return operacoes; }
 }
