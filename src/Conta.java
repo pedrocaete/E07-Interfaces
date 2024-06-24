@@ -29,7 +29,7 @@ public abstract class Conta implements ITaxas{
         }
     }
 
-    public this.getOperacoes()[i].calculaTaxas()void imprimirExtratoTaxas() {
+    public void imprimirExtratoTaxas() {
 	double taxaTotal = this.calculaTaxas();
         System.out.println("=== Extrato de Taxas ===");
         System.out.printf("Manutenção da conta: %.2f \n" ,this.calculaTaxas());
