@@ -29,16 +29,19 @@ public abstract class Conta implements ITaxas{
         }
     }
 
-    void imprimirExtratoTaxas() {
+    public this.getOperacoes()[i].calculaTaxas()void imprimirExtratoTaxas() {
+	double taxaTotal = this.calculaTaxas();
         System.out.println("=== Extrato de Taxas ===");
         System.out.printf("Manutenção da conta: %.2f \n" ,this.calculaTaxas());
         System.out.println("\nOperações");
         for (int i = 0; i < this.getUltima_operacao(); i ++) {
+	    taxaTotal += this.getOperacoes()[i].calculaTaxas();
             if(this.getOperacoes()[i].getTipo() == 's' && this.getOperacoes()[i].calculaTaxas() != 0)
                 System.out.printf("Saque: %.2f\n", this.getOperacoes()[i].calculaTaxas());
             else if(this.getOperacoes()[i].getTipo() == 'd' && this.getOperacoes()[i].calculaTaxas() != 0)
                 System.out.printf("Depósito: %.2f\n", this.getOperacoes()[i].calculaTaxas());
         }
+	System.out.printf("\nTotal: %.2f\n",taxaTotal);
     }
 
     boolean sacar(double valor) {
